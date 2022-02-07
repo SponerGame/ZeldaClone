@@ -16,3 +16,17 @@ Plan deistviy
 5) git merge dev //выбераешь ветку dev
 6) git push //push master ветки
 всё готово
+
+//force override local files
+git fetch --all
+git reset --hard origin/master
+git pull origin master
+//
+
+при конфликте интересов
+//
+git commit -m 'твой коммент' //сохранит твои локальные изменения
+git pull // закинет к тебе новые изменения и при конфликте в файлах ты увидишь новую и старую версию кода
+// разреши конфликты в файлах (удали что не нужно)
+git commit -m 'твой коммент'
+git push // push изменений
