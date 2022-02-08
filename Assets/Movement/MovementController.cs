@@ -6,19 +6,21 @@ public class MovementController : MonoBehaviour
 {
     [SerializeField] private float jumpPower;
     [SerializeField] private CharacterMovment characterMovment; 
+
     private float gravityForce;
     private Vector3 moveVector;
+    private Vector3 oldMousePosition;
+
+    private void Start()
+    {
+        oldMousePosition = Input.mousePosition;
+    }
 
     
 
-    private Vector3 oldMousePosition = Input.mousePosition;
-
     private void Update()
     {
-        
-        
         GravityForced();
-        OnDrawGizmos();
     }
 
     public void Move(float offsetX, float offsetZ)
@@ -64,12 +66,5 @@ public class MovementController : MonoBehaviour
         {
             gravityForce = -1f;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Vector3 zeroVector = Vector3.zero;
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + (transform.forward - Vector3.Dot(transform.forward, zeroVector) * zeroVector));
     }
 }
