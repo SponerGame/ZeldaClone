@@ -2,39 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
+
 public class CharacterMovment : MonoBehaviour
 {
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float rotateSpeed;
+    [SerializeField] private float jumpHeight;
+    [SerializeField] private float gravitationForce;
 
-    [SerializeField] private CharacterController characterController;
-    [SerializeField] private float speedMove;
-    [SerializeField] private float rotationSpeed;
+    private Normalization normalization = new Normalization();
+    private CharacterController characterController;
 
-    public bool isGrounded { get; private set; }
+
+    private void Awake()
+    {
+        characterController = GetComponent<CharacterController>();
+    }
 
 
     public void Move(Vector3 moveVector)
     {
-        characterController.Move(moveVector * speedMove * Time.deltaTime);
+        characterController.Move(moveVector * normalization.fixedMove(moveSpeed));
     }
 
 
-    public void Rotate(float rotation)
+    public void Jump(float curveJumpValue)
     {
-        characterController.transform.Rotate(0, rotation * rotationSpeed * Time.deltaTime, 0);
+        characterController.Move(new Vector3(0, curveJumpValue * jumpHeight, 0));
     }
 
 
-    private void OnCollisionEnter(Collision groundCollision)
+    public void Rotate(Vector2 rotationValue)
     {
-        var ground = groundCollision.gameObject.GetComponentInParent<Ground>(); 
-        if(ground)
-        isGrounded = true;
+        characterController.transform.localEulerAngles = rotationValue;
     }
 
-    private void OnCollisionExit(Collision groundCollision)
+
+    public void UseGravity()
     {
-        var ground = groundCollision.gameObject.GetComponentInParent<Ground>();
-        if (ground)
-            isGrounded = false;
+        characterController.Move(new Vector3(0, -gravitationForce, 0));
+    }
+
+
+    public float GetRotatePosition()
+    {
+        return characterController.transform.eulerAngles.y;
     }
 }
