@@ -17,12 +17,14 @@ public class Player : MonoBehaviour
     private Vector2 direction;
     private Vector2 rotate;
 
-    private Vector2 rotation;
-
     private float jumpVector;
 
     private bool isJumping;
 
+    //New
+    float xRot;
+    float yRot;
+    //
 
     private void Awake()
     {
@@ -59,15 +61,19 @@ public class Player : MonoBehaviour
         return Quaternion.Euler(0, rotatePosition, 0) * new Vector3(direction.x, 0, direction.y);
     }
 
-
-    private Vector3 ViewRotate(Vector2 rotate)
+    //New
+    private Quaternion ViewRotate(Vector2 rotate)
     {
-        rotation.y += rotate.x;
-        rotation.x = Mathf.Clamp(rotation.x - rotate.y, 0, 0);
+        if ((xRot - rotate.y > -80) && (xRot - rotate.y < 80))
+        {
+            xRot -= rotate.y;
+        }
 
-        return rotation; 
+        yRot += rotate.x;
+
+        return Quaternion.Euler(xRot,yRot, 0f);
     }
-
+    //
 
     private void TryJump()
     {
@@ -97,11 +103,3 @@ public class Player : MonoBehaviour
         isJumping = false;
     }
 }
-
-
-
-
-
-
-
-

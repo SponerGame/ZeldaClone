@@ -373,13 +373,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.20171587, y: -0, z: -0, w: 0.9794441}
-  m_LocalPosition: {x: -0.031000137, y: 2.5, z: -2.0510254}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.328, z: -0.187}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1142294128}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 23.275, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1030493365
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,7 +463,7 @@ MonoBehaviour:
   moveSpeed: 1
   rotateSpeed: 1
   jumpHeight: 6
-  gravitationForce: 2
+  gravitationForce: 0.1
 --- !u!114 &1142294126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,11 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc06b772d79ad4c4d9236cb5b6488dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  rotateSpeed: 4
   jumpDuration: 0.4
-  height: 4
-  characterController: {fileID: 1142294124}
   yCurve:
     serializedVersion: 2
     m_Curve:
@@ -722,7 +718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400096, guid: 412b92d4feeb9c548bfa98f62c4d1022, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.46
+      value: 13.55
       objectReference: {fileID: 0}
     - target: {fileID: 400096, guid: 412b92d4feeb9c548bfa98f62c4d1022, type: 3}
       propertyPath: m_LocalPosition.y
@@ -730,7 +726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400096, guid: 412b92d4feeb9c548bfa98f62c4d1022, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 548.8
+      value: 548.672
       objectReference: {fileID: 0}
     - target: {fileID: 400096, guid: 412b92d4feeb9c548bfa98f62c4d1022, type: 3}
       propertyPath: m_LocalRotation.w
