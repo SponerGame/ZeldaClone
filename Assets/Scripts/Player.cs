@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
         rotationCalculator = new RotationCalculator();
 
         characterMovment = GetComponent<CharacterMovment>();
-        characterCamera = GetComponent<CharacterCamera>();
+        characterCamera = GetComponentInChildren<CharacterCamera>();
 
         input = new MovementControler();
 
@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
         characterMovment.Gravity();
 
         characterMovment.Move(MoveDirection(inputDirection));
-        characterCamera.Rotation(rotationCalculator.ViewRotation(inputRotate));
+        characterCamera.Rotation(rotationCalculator.ViewRotation(inputRotate, characterMovment.getRotationSpeed()));
     }
 
     private Vector3 MoveDirection(Vector2 direction)

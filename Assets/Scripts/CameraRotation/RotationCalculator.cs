@@ -9,15 +9,15 @@ public class RotationCalculator : MonoBehaviour
 
     private static readonly float limitAngle = 80;
 
-    public Quaternion ViewRotation(Vector2 inputRotation)
+    public Quaternion ViewRotation(Vector2 inputRotation, float rotationSpeed)
     {
         if (IsRotatable(inputRotation))
         {
-            xRotation -= inputRotation.y;
+            xRotation -= inputRotation.y * rotationSpeed * Time.fixedDeltaTime;
         }
 
-        yRotation += inputRotation.x;
-
+        yRotation += inputRotation.x * rotationSpeed * Time.fixedDeltaTime;
+    
         return Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
