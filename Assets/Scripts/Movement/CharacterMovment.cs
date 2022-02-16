@@ -7,6 +7,9 @@ using UnityEngine;
 public class CharacterMovment : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
+
+    [SerializeField] private float rotationSpeed = 10f;
+
     [SerializeField] private float jumpHeight = 2f;
 
     [SerializeField] private float gravityForce = -9.8f;
@@ -21,14 +24,12 @@ public class CharacterMovment : MonoBehaviour
     private Normalization normalization;
     
     private CharacterController characterController;
-    private Camera characterCamera;
 
     private void Awake()
     {
         normalization = new Normalization();
 
         characterController = GetComponent<CharacterController>();
-        characterCamera = GetComponentInChildren<Camera>();
     }
 
     public void Move(Vector3 moveVector)
@@ -59,9 +60,15 @@ public class CharacterMovment : MonoBehaviour
             do
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityForce);
+
                 yield return new WaitForFixedUpdate();
             }
             while (!isGrounded);
         }
+    }
+
+    public float getRotationSpeed()
+    {
+        return rotationSpeed;
     }
 }

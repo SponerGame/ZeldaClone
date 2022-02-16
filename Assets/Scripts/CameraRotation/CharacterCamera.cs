@@ -8,7 +8,7 @@ public class CharacterCamera : MonoBehaviour
 
     private void Awake()
     {
-        characterCamera = GetComponent<Camera>();
+        characterCamera = GetComponentInChildren<Camera>();
     }
 
 
