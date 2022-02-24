@@ -212,6 +212,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7895c5c603ca9c8439496595f548f008, type: 3}
+--- !u!4 &336581051 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3224422025671376692, guid: 09401233902291c47a601d950ba8b9d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 3224422026117610151}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &457394123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1107,6 +1113,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 3224422025702472024, guid: 09401233902291c47a601d950ba8b9d8,
+        type: 3}
+      propertyPath: areaChecker
+      value: 
+      objectReference: {fileID: 336581051}
+    - target: {fileID: 3224422025702472024, guid: 09401233902291c47a601d950ba8b9d8,
+        type: 3}
+      propertyPath: ladderMask.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09401233902291c47a601d950ba8b9d8, type: 3}
