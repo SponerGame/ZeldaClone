@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class PushableBox : Interactable
 {
-    public GameObject playerCamera;
+    private GameObject playerCamera;
 
-    [SerializeField] public float moveDistance;
-    [SerializeField] public float moveSpeed;
-    public Vector3Int moveDirection;
-    public Vector3 destination;
-    bool isMoving;
+    [SerializeField] private float moveDistance;
+    [SerializeField] private float moveSpeed;
+    private Vector3Int moveDirection;
+    private Vector3 destination;
+    private bool isMoving;
 
-    public Vector3 startPosition;
+    private Vector3 startPosition;
 
-    void Start()
+    private void Start()
     {
         playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
         startPosition = transform.position;
         isMoving = false;
     }
 
-    void Update()
+    private void Update()
     {
         if (isMoving)
         {
@@ -31,7 +31,6 @@ public class PushableBox : Interactable
             }
             else
             {
-                Debug.Log("moved to " + transform.position);
                 isMoving = false;
             }
         }
@@ -57,8 +56,6 @@ public class PushableBox : Interactable
             {
                 destination = transform.position + (Vector3)moveDirection * moveDistance;
             }
-
-            Debug.Log("moving to " + destination);
             isMoving = true;
         }
     }
