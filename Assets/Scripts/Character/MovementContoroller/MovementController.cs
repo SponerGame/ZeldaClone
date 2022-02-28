@@ -8,17 +8,47 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private LayerMask mask;
 
     private CharacterController characterController;
+    private GravityController gravityController;
+    private PlayerController playerController;
+
+    public bool isJumping = false;
+
+    private Ray groundCheckerRay;
+    private RaycastHit hit;
+
+    private Vector3 moveDirection;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        gravityController = GetComponent<GravityController>();
+        playerController = GetComponent<PlayerController>();
     }
 
     public void Move(Vector2 moveVector, float rotation)
     {
-        characterController.Move(MoveDirection(moveVector, rotation) * moveSpeed * Time.fixedDeltaTime);
+        if (isJumping && playerController.CheckArea(mask) == true)
+        {
+            moveDirection = MoveDirection(moveVector, rotation);
+            groundCheckerRay = new Ray(characterController.transform.position + new Vector3(0, -1, 0), moveDirection);
+
+            if (!Physics.Raycast(groundCheckerRay, out hit, 1f, LayerMask.GetMask("Ground")))
+            {
+                characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
+            }
+        }
+        else
+        {
+            characterController.Move(MoveDirection(moveVector, rotation) * moveSpeed * Time.fixedDeltaTime);
+        }
+
+        if (gravityController.CheckIsGround())
+        {
+            isJumping = false;
+        }
     }
 
     public void MoveOnLadder(Vector2 moveVector)
@@ -29,5 +59,10 @@ public class MovementController : MonoBehaviour
     private Vector3 MoveDirection(Vector2 direction, float rotation)
     {
         return Quaternion.Euler(0, rotation, 0) * new Vector3(direction.x, 0, direction.y);
+    }
+
+    public void SetOffset(float value)
+    {
+        characterController.stepOffset = value;
     }
 }

@@ -13,23 +13,24 @@ public class GravityController : MonoBehaviour
     
     private protected Vector3 velocity;
 
-    private float groundDistance = 0.5f;
-
+    private Vector3 groundCheckerSize;
     private CharacterController characterController;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+
+        groundCheckerSize = groundCheck.GetComponent<BoxCollider>().size / 2;
     }
 
     public bool CheckIsGround()
     {
-        return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        return Physics.CheckSphere(groundCheck.position, 0.5f, groundMask);
     }
 
     public void Gravity()
     {
-        if(CheckIsGround() == false)
+        if (CheckIsGround() == false)
         {
             velocity.y += gravityForce * Time.fixedDeltaTime;
         }

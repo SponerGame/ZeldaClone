@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform areaChecker;
     [SerializeField] private LayerMask ladderMask;
 
-    private float checkDistance = 1f;
+    private Vector3 areaCheckerSize;
 
     private CharacterInputActions input;
 
@@ -30,13 +30,15 @@ public class PlayerController : MonoBehaviour
     {
         input = new CharacterInputActions();
         input.Enable();
-        areaChecker = GetComponentInChildren<Transform>();
+
         movementController = GetComponent<MovementController>();
         cameraController = GetComponent<CameraController>();
         gravityController = GetComponent<GravityController>();
         jumpController = GetComponent<JumpController>();
 
         usingController = GetComponent<UsingController>();
+
+        areaCheckerSize = areaChecker.GetComponent<BoxCollider>().size / 2;
     }
 
     private void Start()
@@ -56,6 +58,7 @@ public class PlayerController : MonoBehaviour
             case(MovementStatus.RegularMove):
                 RegularMove();
                 break;
+
             case (MovementStatus.OnLadder):
                 OnLadder();  
                 break;
@@ -69,10 +72,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnLadder()
     {
-        if ((gravityController.CheckIsGround() == true && input.CharacterInputController.Move.ReadValue<Vector2>().y < 0) || Physics.CheckSphere(areaChecker.position, checkDistance, ladderMask) == false)
+        if ((gravityController.CheckIsGround() == true && input.CharacterInputController.Move.ReadValue<Vector2>().y < 0) || CheckArea(ladderMask) == false)
         {
-                SetStatus(MovementStatus.RegularMove);
+            Debug.Log("RegularMove");
+            SetStatus(MovementStatus.RegularMove);
         }
+
+        gravityController.setVelocity(Vector3.zero);
 
         movementController.MoveOnLadder(input.CharacterInputController.Move.ReadValue<Vector2>());
         cameraController.Rotate(input.CharacterInputController.ViewRotate.ReadValue<Vector2>());
@@ -85,18 +91,30 @@ public class PlayerController : MonoBehaviour
 
     private void RegularMove()
     {
-        if (Physics.CheckSphere(areaChecker.position, checkDistance, ladderMask))
+        if (CheckArea(ladderMask) == true)
         {
+            Debug.Log("OnLadder");
             SetStatus(MovementStatus.OnLadder);
         }
-        
+
+        gravityController.Gravity();
+
         cameraController.Rotate(input.CharacterInputController.ViewRotate.ReadValue<Vector2>());
         movementController.Move(input.CharacterInputController.Move.ReadValue<Vector2>(), cameraController.GetRotation());
-        gravityController.Gravity();
 
         if (input.CharacterInputController.Jump.IsPressed())
         {
             jumpController.Jump();
         }
+    }
+
+    public bool CheckArea(LayerMask mask)
+    {
+        return Physics.CheckBox(areaChecker.position, areaCheckerSize, areaChecker.rotation, mask);
+    }
+
+    public bool CheckArea()
+    {
+        return Physics.CheckBox(areaChecker.position, areaCheckerSize, areaChecker.rotation, 3);
     }
 }

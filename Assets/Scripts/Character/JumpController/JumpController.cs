@@ -22,7 +22,10 @@ public class JumpController : MonoBehaviour
     public void Jump()
     {
         if (gravityController.CheckIsGround())
+        {
+            movementController.isJumping = true;
             gravityController.setVelocity(new Vector3(0, Mathf.Sqrt(jumpHeight * -2f * gravityController.getGravityForce()), 0));
+        }
     }
 
     public void JumpOnLadder()
