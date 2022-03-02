@@ -30,6 +30,6 @@ public class JumpController : MonoBehaviour
 
     public void JumpOnLadder()
     {
-        movementController.Move( new Vector2(0, -5), cameraController.GetRotation());
+        movementController.Move( new Vector2(0, -0.5f), cameraController.GetRotation());
     }
 }
