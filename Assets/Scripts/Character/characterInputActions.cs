@@ -62,6 +62,15 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""DropItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""39d6033b-e0c2-49a1-9c30-1699f1a02f9b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -150,6 +159,17 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",
                     ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03c0212c-44ab-46f6-a5ca-4e9afd2e1b4f"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -256,6 +276,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
         m_CharacterInputController_ViewRotate = m_CharacterInputController.FindAction("ViewRotate", throwIfNotFound: true);
         m_CharacterInputController_Jump = m_CharacterInputController.FindAction("Jump", throwIfNotFound: true);
         m_CharacterInputController_Use = m_CharacterInputController.FindAction("Use", throwIfNotFound: true);
+        m_CharacterInputController_DropItem = m_CharacterInputController.FindAction("DropItem", throwIfNotFound: true);
         // LadderInput
         m_LadderInput = asset.FindActionMap("LadderInput", throwIfNotFound: true);
         m_LadderInput_Slide = m_LadderInput.FindAction("Slide", throwIfNotFound: true);
@@ -323,6 +344,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
     private readonly InputAction m_CharacterInputController_ViewRotate;
     private readonly InputAction m_CharacterInputController_Jump;
     private readonly InputAction m_CharacterInputController_Use;
+    private readonly InputAction m_CharacterInputController_DropItem;
     public struct CharacterInputControllerActions
     {
         private @CharacterInputActions m_Wrapper;
@@ -331,6 +353,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
         public InputAction @ViewRotate => m_Wrapper.m_CharacterInputController_ViewRotate;
         public InputAction @Jump => m_Wrapper.m_CharacterInputController_Jump;
         public InputAction @Use => m_Wrapper.m_CharacterInputController_Use;
+        public InputAction @DropItem => m_Wrapper.m_CharacterInputController_DropItem;
         public InputActionMap Get() { return m_Wrapper.m_CharacterInputController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -352,6 +375,9 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                 @Use.started -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnUse;
                 @Use.performed -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnUse;
                 @Use.canceled -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnUse;
+                @DropItem.started -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnDropItem;
+                @DropItem.performed -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnDropItem;
+                @DropItem.canceled -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnDropItem;
             }
             m_Wrapper.m_CharacterInputControllerActionsCallbackInterface = instance;
             if (instance != null)
@@ -368,6 +394,9 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                 @Use.started += instance.OnUse;
                 @Use.performed += instance.OnUse;
                 @Use.canceled += instance.OnUse;
+                @DropItem.started += instance.OnDropItem;
+                @DropItem.performed += instance.OnDropItem;
+                @DropItem.canceled += instance.OnDropItem;
             }
         }
     }
@@ -419,6 +448,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
         void OnViewRotate(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
+        void OnDropItem(InputAction.CallbackContext context);
     }
     public interface ILadderInputActions
     {

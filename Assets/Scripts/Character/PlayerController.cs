@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Transform areaChecker;
-    [SerializeField] private LayerMask ladderMask;
-
-    private Vector3 areaCheckerSize;
+    public static GameObject currentItem;
 
     private CharacterInputActions input;
 
-    private MovementController movementController;
-    private CameraController cameraController;
-    private GravityController gravityController;
-    private JumpController jumpController;
+    public static MovementController movementController;
+    public static CameraController cameraController;
+    public static GravityController gravityController;
+    public static JumpController jumpController;
 
-    private UsingController usingController;
+    public static UsingController usingController;
+
+    public static Checker checker;
 
     private enum MovementStatus
     {
@@ -38,12 +37,13 @@ public class PlayerController : MonoBehaviour
 
         usingController = GetComponent<UsingController>();
 
-        areaCheckerSize = areaChecker.GetComponent<BoxCollider>().size / 2;
+        checker = GetComponent<Checker>();
     }
 
     private void Start()
     {
         input.CharacterInputController.Use.performed += ctx => usingController.TryUsing();
+        input.CharacterInputController.DropItem.performed += ctx => usingController.TryDropItem();
     }
 
     private void FixedUpdate()
@@ -72,9 +72,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnLadder()
     {
-        if ((gravityController.CheckIsGround() == true && input.CharacterInputController.Move.ReadValue<Vector2>().y < 0) || CheckArea(ladderMask) == false)
+        if ((checker.CheckIsGround() == true && input.CharacterInputController.Move.ReadValue<Vector2>().y < 0) || checker.CheckArea(LayerMask.GetMask("Ladder")) == false)
         {
-            Debug.Log("RegularMove");
             SetStatus(MovementStatus.RegularMove);
         }
 
@@ -91,9 +90,8 @@ public class PlayerController : MonoBehaviour
 
     private void RegularMove()
     {
-        if (CheckArea(ladderMask) == true)
+        if (checker.CheckArea(LayerMask.GetMask("Ladder")) == true)
         {
-            Debug.Log("OnLadder");
             SetStatus(MovementStatus.OnLadder);
         }
 
@@ -106,15 +104,5 @@ public class PlayerController : MonoBehaviour
         {
             jumpController.Jump();
         }
-    }
-
-    public bool CheckArea(LayerMask mask)
-    {
-        return Physics.CheckBox(areaChecker.position, areaCheckerSize, areaChecker.rotation, mask);
-    }
-
-    public bool CheckArea()
-    {
-        return Physics.CheckBox(areaChecker.position, areaCheckerSize, areaChecker.rotation, 3);
     }
 }

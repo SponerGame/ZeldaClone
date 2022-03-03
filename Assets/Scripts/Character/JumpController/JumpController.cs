@@ -8,28 +8,17 @@ public class JumpController : MonoBehaviour
 {
     [SerializeField] private float jumpHeight = 2f;
 
-    private GravityController gravityController;
-    private MovementController movementController;
-    private CameraController cameraController;
-
-    private void Awake()
-    {
-        gravityController = GetComponent<GravityController>();
-        movementController = GetComponent<MovementController>();
-        cameraController = GetComponent<CameraController>();
-    }
-
     public void Jump()
     {
-        if (gravityController.CheckIsGround())
+        if (PlayerController.checker.CheckIsGround() == true)
         {
-            movementController.isJumping = true;
-            gravityController.setVelocity(new Vector3(0, Mathf.Sqrt(jumpHeight * -2f * gravityController.getGravityForce()), 0));
+            MovementController.isJumping = true;
+            PlayerController.gravityController.setVelocity(new Vector3(0, Mathf.Sqrt(jumpHeight * -2f * PlayerController.gravityController.getGravityForce()), 0));
         }
     }
 
     public void JumpOnLadder()
     {
-        movementController.Move( new Vector2(0, -0.5f), cameraController.GetRotation());
+        PlayerController.movementController.Move( new Vector2(0, -5), PlayerController.cameraController.GetRotation());
     }
 }
