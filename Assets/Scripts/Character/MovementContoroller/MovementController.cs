@@ -11,8 +11,8 @@ public class MovementController : MonoBehaviour
 
     public static bool isJumping = false;
 
-    public static CharacterController characterController;
-    
+    public static CharacterController characterController { get; private set; }
+
     private Ray groundCheckerRay;
     private RaycastHit hit;
 

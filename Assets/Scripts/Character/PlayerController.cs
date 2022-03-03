@@ -8,14 +8,14 @@ public class PlayerController : MonoBehaviour
 
     private CharacterInputActions input;
 
-    public static MovementController movementController;
-    public static CameraController cameraController;
-    public static GravityController gravityController;
-    public static JumpController jumpController;
+    public static MovementController movementController { get; private set; }
+    public static CameraController cameraController { get; private set; }
+    public static GravityController gravityController { get; private set; }
+    public static JumpController jumpController { get; private set; }
 
-    public static UsingController usingController;
+    public static UsingController usingController { get; private set; }
 
-    public static Checker checker;
+    public static Checker checker { get; private set; }
 
     private enum MovementStatus
     {
