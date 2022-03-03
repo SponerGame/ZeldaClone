@@ -7,25 +7,25 @@ using UnityEngine;
 
 public class UsingController : MonoBehaviour
 {
-    [SerializeField] private float useDistance; 
-
-    private CameraController cameraController;
-
-    private void Awake()
-    {
-        cameraController = GetComponent<CameraController>();
-    }
+    [SerializeField] private float useDistance;
 
     public void TryUsing()
     {
-        if (Physics.Raycast(cameraController.getCharacterCamera().transform.position, cameraController.getCharacterCamera().transform.forward, out var hitInfo, useDistance))
+        if (Physics.Raycast(PlayerController.cameraController.getCharacterCamera().transform.position,
+            PlayerController.cameraController.getCharacterCamera().transform.forward, out var hitInfo, useDistance))
         {
-            if (hitInfo.transform.GetComponent<Interactable>())
+            if (hitInfo.transform.GetComponent<Interactable>() != null)
             {
                 hitInfo.transform.GetComponent<Interactable>().Interact();
             }
         }
     }
 
-    
+    public void TryDropItem()
+    {
+        if (PlayerController.currentItem != null)
+        {
+            PlayerController.currentItem.GetComponent<GetItem>().DropItem();
+        }
+    }
 }
