@@ -13,7 +13,7 @@ public class MovementController : MonoBehaviour
 
     public static CharacterController characterController { get; private set; }
 
-    private Ray groundCheckerRay;
+    private Ray groundCheckerRay;        
     private RaycastHit hit;
 
     private Vector3 moveDirection;
