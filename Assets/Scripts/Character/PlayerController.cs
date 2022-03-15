@@ -17,13 +17,15 @@ public class PlayerController : MonoBehaviour
 
     public static Checker checker { get; private set; }
 
-    private enum MovementStatus
+    public static Busters.BusterType activeBuster;
+
+    public enum MovementStatus
     {
         RegularMove,
         OnLadder
     }
 
-    private MovementStatus currentStatus = MovementStatus.RegularMove;
+    public static MovementStatus currentStatus = MovementStatus.RegularMove;
 
     private void Awake()
     {
@@ -44,6 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         input.CharacterInputController.Use.performed += ctx => usingController.TryUsing();
         input.CharacterInputController.DropItem.performed += ctx => usingController.TryDropItem();
+        input.CharacterInputController.Jump.performed += ctx => jumpController.TryJump();
     }
 
     private void FixedUpdate()
@@ -81,11 +84,6 @@ public class PlayerController : MonoBehaviour
 
         movementController.MoveOnLadder(input.CharacterInputController.Move.ReadValue<Vector2>());
         cameraController.Rotate(input.CharacterInputController.ViewRotate.ReadValue<Vector2>());
-    
-        if (input.CharacterInputController.Jump.IsPressed())
-        {
-            jumpController.JumpOnLadder();
-        }
     }
 
     private void RegularMove()
@@ -99,10 +97,5 @@ public class PlayerController : MonoBehaviour
 
         cameraController.Rotate(input.CharacterInputController.ViewRotate.ReadValue<Vector2>());
         movementController.Move(input.CharacterInputController.Move.ReadValue<Vector2>(), cameraController.GetRotation());
-
-        if (input.CharacterInputController.Jump.IsPressed())
-        {
-            jumpController.Jump();
-        }
     }
 }

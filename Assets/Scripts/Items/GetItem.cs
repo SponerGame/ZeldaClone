@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class GetItem : Interactable
 {
-    private Camera characterCamera;
+    [SerializeField] private Camera characterCamera;
     private GameObject additionalObject;
 
     private void Awake()
     {
         additionalObject = this.gameObject;
-        characterCamera = PlayerController.cameraController.getCharacterCamera();
     }
 
     public override void Interact()

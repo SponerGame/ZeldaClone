@@ -9,6 +9,7 @@ public class MovementController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
 
+    public static bool airJumping = false;
     public static bool isJumping = false;
 
     public static CharacterController characterController { get; private set; }
@@ -25,6 +26,15 @@ public class MovementController : MonoBehaviour
 
     public void Move(Vector2 moveVector, float rotation)
     {
+        if (PlayerController.activeBuster == Busters.BusterType.HightSpeed)
+        {
+            moveSpeed = 20f;
+        }
+        else
+        {
+            moveSpeed = 10f;
+        }
+
         if (isJumping && PlayerController.checker.CheckArea(LayerMask.GetMask("Ground")) == true)
         {
             moveDirection = MoveDirection(moveVector, rotation);
@@ -43,6 +53,7 @@ public class MovementController : MonoBehaviour
         if (PlayerController.checker.CheckIsGround())
         {
             isJumping = false;
+            airJumping = false;
         }
     }
 
