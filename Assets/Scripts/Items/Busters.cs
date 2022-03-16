@@ -32,6 +32,7 @@ public class Busters : MonoBehaviour
     private IEnumerator EnableBuster()
     {
         isActive = true;
+
         float timer = 0f;
 
         PlayerController.activeBuster = busterType;
@@ -46,6 +47,7 @@ public class Busters : MonoBehaviour
         }
 
         isActive = false;
+
         PlayerController.activeBuster = BusterType.NULL;
     }
 }

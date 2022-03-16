@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     public static GameObject currentItem;
 
+    public static GameObject gun;
+
     private CharacterInputActions input;
 
     public static MovementController movementController { get; private set; }
@@ -46,6 +48,8 @@ public class PlayerController : MonoBehaviour
     {
         input.CharacterInputController.Use.performed += ctx => usingController.TryUsing();
         input.CharacterInputController.DropItem.performed += ctx => usingController.TryDropItem();
+        input.CharacterInputController.Shot.performed += ctx => usingController.TryShot();
+
         input.CharacterInputController.Jump.performed += ctx => jumpController.TryJump();
     }
 

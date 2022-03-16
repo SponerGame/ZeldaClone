@@ -16,28 +16,26 @@ public class Podium : Interactable
 
     public override void Interact()
     {
-
         if (PlayerController.currentItem != null)
         {
             item = PlayerController.currentItem;
 
-            //if (item.GetComponent<Renderer>().material.color == material.color)
-            //{
-                if (item.GetComponent<Rigidbody>() != null)
-                {
-                    item.GetComponent<Rigidbody>().useGravity = false;
-                    item.GetComponent<Rigidbody>().isKinematic = true;
-                }
+            PlayerController.currentItem = null;
 
-                item.transform.parent = gameObject.transform;
-                item.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
+            if (item.GetComponent<Rigidbody>() != null)
+            {
+                item.GetComponent<Rigidbody>().useGravity = false;
+                item.GetComponent<Rigidbody>().isKinematic = true;
+            }
 
-                PlayerController.currentItem = null;
+            item.transform.parent = gameObject.transform;
+            item.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
 
-                StartCoroutine(StartSpening());
+            PlayerController.currentItem = null;
 
-                puzzle.PuzzleComplite();
-            //}
+            StartCoroutine(StartSpening());
+
+            //puzzle.PuzzleComplite();
         }
     }
 

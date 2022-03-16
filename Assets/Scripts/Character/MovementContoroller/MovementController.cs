@@ -26,28 +26,18 @@ public class MovementController : MonoBehaviour
 
     public void Move(Vector2 moveVector, float rotation)
     {
-        if (PlayerController.activeBuster == Busters.BusterType.HightSpeed)
-        {
-            moveSpeed = 20f;
-        }
-        else
-        {
-            moveSpeed = 10f;
-        }
+        moveDirection = MoveDirection(moveVector, rotation);
 
         if (isJumping && PlayerController.checker.CheckArea(LayerMask.GetMask("Ground")) == true)
         {
-            moveDirection = MoveDirection(moveVector, rotation);
             groundCheckerRay = new Ray(characterController.transform.position + new Vector3(0, -1, 0), moveDirection);
 
             if (!Physics.Raycast(groundCheckerRay, out hit, 1f, LayerMask.GetMask("Ground")))
-            {
-                characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
-            }
+                Moving();
         }
         else
         {
-            characterController.Move(MoveDirection(moveVector, rotation) * moveSpeed * Time.fixedDeltaTime);
+            Moving();
         }
         
         if (PlayerController.checker.CheckIsGround())
@@ -65,5 +55,17 @@ public class MovementController : MonoBehaviour
     private Vector3 MoveDirection(Vector2 direction, float rotation)
     {
         return Quaternion.Euler(0, rotation, 0) * new Vector3(direction.x, 0, direction.y);
+    }
+
+    private void Moving()
+    {
+        if (PlayerController.activeBuster == Busters.BusterType.HightSpeed)
+        {
+            characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime * 2);
+        }
+        else
+        {
+            characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 }

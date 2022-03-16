@@ -8,6 +8,7 @@ public class PushableBox : Interactable
 
     [SerializeField] private float moveDistance;
     [SerializeField] private float moveSpeed;
+
     private Vector3Int moveDirection;
     private Vector3 destination;
     private bool isMoving;

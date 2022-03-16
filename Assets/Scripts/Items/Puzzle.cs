@@ -5,9 +5,7 @@ using UnityEngine;
 public class Puzzle : MonoBehaviour
 {
     [SerializeField] private List<Podium> InteractivePlaces;
-
-
-
+    
     public bool PuzzleComplite()
     {
         foreach (var interactivePlace in InteractivePlaces)

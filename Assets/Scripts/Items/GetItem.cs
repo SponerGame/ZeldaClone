@@ -7,9 +7,11 @@ public class GetItem : Interactable
     [SerializeField] private Camera characterCamera;
     private GameObject additionalObject;
 
+    private bool isInteracteble;
+
     private void Awake()
     {
-        additionalObject = this.gameObject;
+        additionalObject = gameObject;
     }
 
     public override void Interact()
@@ -18,10 +20,14 @@ public class GetItem : Interactable
         {
             PlayerController.currentItem.GetComponent<GetItem>().DropItem();
 
+            PlayerController.currentItem = additionalObject;
+
             StartCoroutine(WaitAndGet(0.25f));
         }
         else
         {
+            PlayerController.currentItem = additionalObject;
+
             Getter();
         }
     }
@@ -55,8 +61,6 @@ public class GetItem : Interactable
 
         additionalObject.transform.position = characterCamera.transform.position + characterCamera.transform.forward;
         additionalObject.transform.localPosition += new Vector3(0.7f, -0.7f, 0);
-
-        PlayerController.currentItem = additionalObject;
     }
 
     private IEnumerator WaitAndGet(float time)
@@ -71,5 +75,15 @@ public class GetItem : Interactable
         }
 
         Getter();
+    }
+
+    public void setInterStatus(bool newStatus)
+    {
+        isInteracteble = newStatus;
+    }
+
+    public bool returnInterStatus()
+    {
+        return isInteracteble;
     }
 }
