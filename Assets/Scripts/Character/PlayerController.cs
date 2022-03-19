@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public static GameObject gun;
 
     private CharacterInputActions input;
-
+    [SerializeField] private Inventory inventory; // на рефактор
     public static MovementController movementController { get; private set; }
     public static CameraController cameraController { get; private set; }
     public static GravityController gravityController { get; private set; }
@@ -56,6 +56,16 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         StatusController();
+         // на рефактор
+        if (input.CharacterInputController.Inventory.IsPressed())
+        {
+            inventory.Open(input.CharacterInputController.ViewRotate.ReadValue<Vector2>());
+        }
+        else
+        {
+            inventory.Close();
+        }
+        //
     }
 
     private void StatusController()

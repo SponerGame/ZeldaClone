@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PushableBox : Interactable
 {
-    private GameObject playerCamera;
+    [SerializeField] private GameObject playerCamera;
 
     [SerializeField] private float moveDistance;
     [SerializeField] private float moveSpeed;
@@ -17,7 +17,7 @@ public class PushableBox : Interactable
 
     private void Start()
     {
-        playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        //playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
         startPosition = transform.position;
         isMoving = false;
     }

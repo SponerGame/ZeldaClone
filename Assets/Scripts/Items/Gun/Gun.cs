@@ -17,10 +17,10 @@ public class Gun : Interactable
 
         gameObject.transform.parent = characterCamera.transform;
 
-        Get();
+        Show();
     }
 
-    public void Get()
+    public void Show()
     {
         gameObject.transform.localEulerAngles = new Vector3(90, 0, 0);
 
@@ -39,7 +39,7 @@ public class Gun : Interactable
     public void Shot()
     {
         if (Physics.Raycast(PlayerController.cameraController.getCharacterCamera().transform.position,
-            PlayerController.cameraController.getCharacterCamera().transform.forward, out var hitInfo, 1000))
+            PlayerController.cameraController.getCharacterCamera().transform.forward, out var hitInfo))
         {
             if (hitInfo.transform.GetComponent<Shootable>() != null)
             {

@@ -28,23 +28,22 @@ public class MovementController : MonoBehaviour
     {
         moveDirection = MoveDirection(moveVector, rotation);
 
-        if (isJumping && PlayerController.checker.CheckArea(LayerMask.GetMask("Ground")) == true)
+        if (isJumping)
         {
-            groundCheckerRay = new Ray(characterController.transform.position + new Vector3(0, -1, 0), moveDirection);
-
-            if (!Physics.Raycast(groundCheckerRay, out hit, 1f, LayerMask.GetMask("Ground")))
-                Moving();
+            characterController.stepOffset = 0f;
         }
         else
         {
-            Moving();
+            characterController.stepOffset = 0.5f;
         }
-        
+
         if (PlayerController.checker.CheckIsGround())
         {
             isJumping = false;
             airJumping = false;
         }
+
+        Moving();
     }
 
     public void MoveOnLadder(Vector2 moveVector)
