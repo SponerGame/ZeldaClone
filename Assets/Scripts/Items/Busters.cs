@@ -39,7 +39,7 @@ public class Busters : MonoBehaviour
 
         while (timer < timeDuration)
         {
-            Debug.Log(timer);
+            //Debug.Log(timer);
 
             timer += Time.fixedDeltaTime;
 

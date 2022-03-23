@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -59,7 +57,8 @@ public class PlayerController : MonoBehaviour
          // на рефактор
         if (input.CharacterInputController.Inventory.IsPressed())
         {
-            inventory.Open(input.CharacterInputController.ViewRotate.ReadValue<Vector2>());
+            
+            inventory.Open(input.CharacterInputController.MouseInventory.ReadValue<Vector2>());
         }
         else
         {
