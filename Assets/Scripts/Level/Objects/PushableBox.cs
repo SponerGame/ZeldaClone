@@ -8,55 +8,107 @@ public class PushableBox : Interactable
 
     [SerializeField] private float moveDistance;
     [SerializeField] private float moveSpeed;
-    private Vector3Int moveDirection;
-    private Vector3 destination;
-    private bool isMoving;
+    [SerializeField] private float stepTime;
+    [SerializeField] private float idleTime;
 
-    private Vector3 startPosition;
+    Vector3 destination;
+
+    [SerializeField] private Vector3Int[] trajectory;
+    private int trajectoryStep;
+
+    private float timer;
+
+    private bool isMoving;
+    private bool isInteracted;
 
     private void Start()
     {
         playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        startPosition = transform.position;
         isMoving = false;
+        isInteracted = false;
+        trajectoryStep = 0;
+        timer = 0;
     }
 
     private void Update()
     {
         if (isMoving)
         {
-            if (transform.position != destination)
+            move();
+        }
+        else if (!isInteracted)
+        {
+            timer += Time.deltaTime;
+
+            if (timer > stepTime)
             {
-                transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.fixedDeltaTime);
+                if (trajectoryStep == trajectory.Length)
+                {
+                    trajectoryStep = 0;
+                }
+
+                destination = getDestination(trajectory[trajectoryStep++]);
+                isMoving = true;
             }
-            else
+        }
+        else
+        {
+            timer += Time.deltaTime;
+
+            if (timer > idleTime)
             {
-                isMoving = false;
+                Debug.Log("stop idle");
+                isInteracted = false;
             }
+        }
+    }
+
+    private void move()
+    {
+        if (transform.position != destination)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            isMoving = false;
+            timer = 0;
+        }
+    }
+
+    private Vector3 getDestination(Vector3Int direction)
+    {
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size / 2F, direction, out var hitInfo, transform.rotation, moveDistance) && hitInfo.transform.GetComponent<Collider>())
+        {
+            return transform.position - (Vector3)direction * moveDistance;
+        }
+        else if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size / 2F, direction * (-1), out hitInfo, transform.rotation, moveDistance) && hitInfo.transform.GetComponent<Collider>())
+        {
+            return transform.position + (Vector3)direction * moveDistance;
+        }
+        else
+        {
+            return transform.position;
         }
     }
 
     override public void Interact()
     {
-        if (!isMoving)
+        if (isMoving)
         {
-            moveDirection = Vector3Int.RoundToInt(playerCamera.transform.forward);
-            moveDirection.y = 0;
-
-            if (Mathf.Abs(moveDirection.x) == Mathf.Abs(moveDirection.z))
-            {
-                return;
-            }
-
-            if (Physics.Raycast(transform.position, moveDirection, out var hitInfo, moveDistance) && hitInfo.transform.GetComponent<Collider>())
-            {
-                destination = transform.position - (Vector3)moveDirection * moveDistance;
-            }
-            else
-            {
-                destination = transform.position + (Vector3)moveDirection * moveDistance;
-            }
-            isMoving = true;
+            return;
         }
+
+        Vector3Int direction = Vector3Int.RoundToInt(playerCamera.transform.forward);
+        direction.y = 0;
+
+        if (Mathf.Abs(direction.x) == Mathf.Abs(direction.z))
+        {
+            return;
+        }
+
+        destination = getDestination(direction);
+        isInteracted = true;
+        isMoving = true;
     }
 }
