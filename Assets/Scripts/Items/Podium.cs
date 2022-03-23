@@ -35,7 +35,7 @@ public class Podium : Interactable
 
             StartCoroutine(StartSpening());
 
-            //puzzle.PuzzleComplite();
+            puzzle.PuzzleComplite();
         }
     }
 

@@ -98,6 +98,15 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""a2fb6140-c540-4c10-865f-c6866a513086"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                     ""action"": ""MouseInventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""822b28b9-a708-48b3-acbe-530e9f94c544"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -340,6 +360,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
         m_CharacterInputController_Shot = m_CharacterInputController.FindAction("Shot", throwIfNotFound: true);
         m_CharacterInputController_Inventory = m_CharacterInputController.FindAction("Inventory", throwIfNotFound: true);
         m_CharacterInputController_MouseInventory = m_CharacterInputController.FindAction("MouseInventory", throwIfNotFound: true);
+        m_CharacterInputController_Scroll = m_CharacterInputController.FindAction("Scroll", throwIfNotFound: true);
         // LadderInput
         m_LadderInput = asset.FindActionMap("LadderInput", throwIfNotFound: true);
         m_LadderInput_Slide = m_LadderInput.FindAction("Slide", throwIfNotFound: true);
@@ -411,6 +432,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
     private readonly InputAction m_CharacterInputController_Shot;
     private readonly InputAction m_CharacterInputController_Inventory;
     private readonly InputAction m_CharacterInputController_MouseInventory;
+    private readonly InputAction m_CharacterInputController_Scroll;
     public struct CharacterInputControllerActions
     {
         private @CharacterInputActions m_Wrapper;
@@ -423,6 +445,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
         public InputAction @Shot => m_Wrapper.m_CharacterInputController_Shot;
         public InputAction @Inventory => m_Wrapper.m_CharacterInputController_Inventory;
         public InputAction @MouseInventory => m_Wrapper.m_CharacterInputController_MouseInventory;
+        public InputAction @Scroll => m_Wrapper.m_CharacterInputController_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_CharacterInputController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -456,6 +479,9 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                 @MouseInventory.started -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnMouseInventory;
                 @MouseInventory.performed -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnMouseInventory;
                 @MouseInventory.canceled -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnMouseInventory;
+                @Scroll.started -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_CharacterInputControllerActionsCallbackInterface.OnScroll;
             }
             m_Wrapper.m_CharacterInputControllerActionsCallbackInterface = instance;
             if (instance != null)
@@ -484,6 +510,9 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
                 @MouseInventory.started += instance.OnMouseInventory;
                 @MouseInventory.performed += instance.OnMouseInventory;
                 @MouseInventory.canceled += instance.OnMouseInventory;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
             }
         }
     }
@@ -539,6 +568,7 @@ public partial class @CharacterInputActions : IInputActionCollection2, IDisposab
         void OnShot(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnMouseInventory(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
     public interface ILadderInputActions
     {
