@@ -9,12 +9,13 @@ public class MovementController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
 
+    public static bool airJumping = false;
     public static bool isJumping = false;
 
     public static CharacterController characterController { get; private set; }
 
-    private Ray groundCheckerRay;
-    private RaycastHit hit;
+    //private Ray groundCheckerRay;        
+    //private RaycastHit hit;
 
     private Vector3 moveDirection;
 
@@ -25,25 +26,24 @@ public class MovementController : MonoBehaviour
 
     public void Move(Vector2 moveVector, float rotation)
     {
-        if (isJumping && PlayerController.checker.CheckArea(LayerMask.GetMask("Ground")) == true)
-        {
-            moveDirection = MoveDirection(moveVector, rotation);
-            groundCheckerRay = new Ray(characterController.transform.position + new Vector3(0, -1, 0), moveDirection);
+        moveDirection = MoveDirection(moveVector, rotation);
 
-            if (!Physics.Raycast(groundCheckerRay, out hit, 1f, LayerMask.GetMask("Ground")))
-            {
-                characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
-            }
+        if (isJumping)
+        {
+            characterController.stepOffset = 0f;
         }
         else
         {
-            characterController.Move(MoveDirection(moveVector, rotation) * moveSpeed * Time.fixedDeltaTime);
+            characterController.stepOffset = 0.5f;
         }
-        
+
         if (PlayerController.checker.CheckIsGround())
         {
             isJumping = false;
+            airJumping = false;
         }
+
+        Moving();
     }
 
     public void MoveOnLadder(Vector2 moveVector)
@@ -54,5 +54,17 @@ public class MovementController : MonoBehaviour
     private Vector3 MoveDirection(Vector2 direction, float rotation)
     {
         return Quaternion.Euler(0, rotation, 0) * new Vector3(direction.x, 0, direction.y);
+    }
+
+    private void Moving()
+    {
+        if (PlayerController.activeBuster == Busters.BusterType.HightSpeed)
+        {
+            characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime * 2);
+        }
+        else
+        {
+            characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 }

@@ -17,7 +17,15 @@ public class UsingController : MonoBehaviour
             if (hitInfo.transform.GetComponent<Interactable>() != null)
             {
                 hitInfo.transform.GetComponent<Interactable>().Interact();
+
+                if (PlayerController.gun != null && PlayerController.currentItem != null)
+                    PlayerController.gun.GetComponent<Gun>().Hide();
             }
+        }
+
+        if (PlayerController.currentItem == null && PlayerController.gun != null)
+        {
+            PlayerController.gun.GetComponent<Gun>().Show();
         }
     }
 
@@ -26,6 +34,19 @@ public class UsingController : MonoBehaviour
         if (PlayerController.currentItem != null)
         {
             PlayerController.currentItem.GetComponent<GetItem>().DropItem();
+        }
+
+        if (PlayerController.gun != null)
+        {
+            PlayerController.gun.GetComponent<Gun>().Show();
+        }
+    }
+
+    public void TryShot()
+    {
+        if (PlayerController.gun != null)
+        {
+            PlayerController.gun.GetComponent<Gun>().Shot();
         }
     }
 }

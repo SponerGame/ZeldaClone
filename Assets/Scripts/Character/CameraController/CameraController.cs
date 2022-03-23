@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerController))]
@@ -12,11 +10,18 @@ public class CameraController : MonoBehaviour
     private float xRotation;
     private float yRotation;
 
+    // тест
+    [SerializeField] private Inventory inventory;
+    //
     private static readonly float limitAngleY = 80;
 
     public void Rotate(Vector2 inputRotation)
     {
-        characterCamera.transform.rotation = ViewRotation(inputRotation);
+        if(inventory.IsOpen() == false) // тест
+        {
+            characterCamera.transform.rotation = ViewRotation(inputRotation);
+        }
+        
     }
 
     public float GetRotation()
